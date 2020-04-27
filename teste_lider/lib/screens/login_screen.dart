@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:teste_lider/bloc/login/field_statebloc.dart';
 import 'package:teste_lider/bloc/login/login_bloc.dart';
+import 'package:teste_lider/screens/Widgets/facebook_button.dart';
 import 'package:teste_lider/screens/Widgets/login_button.dart';
+import 'package:teste_lider/screens/Widgets/or_divide.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -24,6 +26,8 @@ class _LoginScreenState extends State < LoginScreen > {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: < Widget > [
+              FacebookButton(_loginBloc),
+              Ordivider(),
               Padding(padding: const EdgeInsets.only(top: 20, bottom: 11),
                 child: Text(
                   "Acessar com E-mail:",
@@ -42,7 +46,7 @@ class _LoginScreenState extends State < LoginScreen > {
                     )
                   ),
               ),
-              StreamBuilder<FieldState>(
+              StreamBuilder < FieldState > (
                 stream: _loginBloc.outEmail,
                 initialData: FieldState(),
                 builder: (context, snapshot) {
@@ -51,11 +55,11 @@ class _LoginScreenState extends State < LoginScreen > {
                     autocorrect: false,
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(),
-                      errorText: snapshot.data.error,
-                      ),
-                      onChanged: _loginBloc.changeEmail ,
-                      enabled: snapshot.data.enabled,
-                     );
+                        errorText: snapshot.data.error,
+                    ),
+                    onChanged: _loginBloc.changeEmail,
+                    enabled: snapshot.data.enabled,
+                  );
                 },
               ),
               Padding(
@@ -86,7 +90,7 @@ class _LoginScreenState extends State < LoginScreen > {
                     ]
                   ),
               ),
-              StreamBuilder<FieldState>(
+              StreamBuilder < FieldState > (
                 stream: _loginBloc.outPassword,
                 initialData: FieldState(),
                 builder: (context, snapshot) {
@@ -95,13 +99,41 @@ class _LoginScreenState extends State < LoginScreen > {
                     obscureText: true,
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(),
-                      errorText: snapshot.data.error,
+                        errorText: snapshot.data.error,
                     ),
                     onChanged: _loginBloc.changePassword,
                     enabled: snapshot.data.enabled,
                   );
                 }),
-              LoginButton(),
+              LoginButton(_loginBloc),
+              Divider(
+                color: Colors.grey,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    const Text(
+                      "Não tem uma conta ?",
+                      style: TextStyle(fontSize:16),
+                      ),
+                      GestureDetector(
+                        onTap:(){
+                          //Navigator.of(context).push(MaterialPageRoute(builder: (context)=> SignUpScreen()));
+                        },
+                        child: Text(
+                          "Cadastre-se",
+                          style:TextStyle(
+                            decoration: TextDecoration.underline,
+                            color: Colors.blue,
+                            fontSize: 16,
+                          )
+                        ),
+                      )
+                  ],
+                ),
+              )
             ],
           ), ),
       ),
