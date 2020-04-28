@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:teste_lider/bloc/login/field_statebloc.dart';
 import 'package:teste_lider/bloc/login/login_bloc.dart';
+import 'package:teste_lider/screens/SignUp/signup_screen.dart';
 import 'package:teste_lider/screens/Widgets/facebook_button.dart';
 import 'package:teste_lider/screens/Widgets/login_button.dart';
 import 'package:teste_lider/screens/Widgets/or_divide.dart';
@@ -125,7 +126,7 @@ class _LoginScreenState extends State < LoginScreen > {
                         ),
                         GestureDetector(
                           onTap: () {
-                            //Navigator.of(context).push(MaterialPageRoute(builder: (context)=> SignUpScreen()));
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=> SignUpScreen()));
                           },
                           child: Text(
                             "Cadastre-se",
