@@ -10,7 +10,7 @@ class LoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 24),
+      margin: const EdgeInsets.only(top:24),
         height: 50,
         child: StreamBuilder < ButtonState > (
           stream: loginBloc.outLoginButton,

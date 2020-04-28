@@ -73,16 +73,20 @@ class PasswordField extends StatelessWidget {
       validator: (text){
         if (text.isEmpty || _calcScore(text)<2)
         return "Senha inválida";
+        return null;
       },
       builder: (state) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: < Widget > [
-            TextField(
-              decoration: const InputDecoration(border: OutlineInputBorder()),
+            Padding(padding: EdgeInsets.symmetric(vertical:15)),
+            Container(
+            height: 40,
+            child:TextField(
+              decoration: const InputDecoration(border: OutlineInputBorder(), labelText:"Senha"),
                 obscureText: true,
                 onChanged: state.didChange,
-            ),
+            ),),
             if (state.value.isNotEmpty)
             Container(
               margin: const EdgeInsets.only(top: 6),
