@@ -17,15 +17,20 @@ class _LoginScreenState extends State < LoginScreen > {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        title: const Text("Entrar"),
-      ),
       body: SingleChildScrollView(
-        child: Padding(padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Padding(padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: < Widget > [
+              ClipRRect(
+                child: Container(
+                  padding: EdgeInsets.only(top: 50, bottom: 15, ),
+                  child: Image.asset(
+                    'images/logo.jpg',
+                    height: 150,
+                  ),
+                )
+              ),
               FacebookButton(_loginBloc),
               Ordivider(),
               Padding(padding: const EdgeInsets.only(top: 20, bottom: 11),
@@ -111,28 +116,28 @@ class _LoginScreenState extends State < LoginScreen > {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 12),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    const Text(
-                      "Não tem uma conta ?",
-                      style: TextStyle(fontSize:16),
-                      ),
-                      GestureDetector(
-                        onTap:(){
-                          //Navigator.of(context).push(MaterialPageRoute(builder: (context)=> SignUpScreen()));
-                        },
-                        child: Text(
-                          "Cadastre-se",
-                          style:TextStyle(
-                            decoration: TextDecoration.underline,
-                            color: Colors.blue,
-                            fontSize: 16,
-                          )
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: < Widget > [
+                      const Text(
+                          "Não tem uma conta ?",
+                          style: TextStyle(fontSize: 16),
                         ),
-                      )
-                  ],
-                ),
+                        GestureDetector(
+                          onTap: () {
+                            //Navigator.of(context).push(MaterialPageRoute(builder: (context)=> SignUpScreen()));
+                          },
+                          child: Text(
+                            "Cadastre-se",
+                            style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              color: Colors.blue,
+                              fontSize: 16,
+                            )
+                          ),
+                        )
+                    ],
+                  ),
               )
             ],
           ), ),

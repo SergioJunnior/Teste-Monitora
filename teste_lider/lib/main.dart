@@ -10,9 +10,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Teste Lider',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
       home: LoginScreen(),
     );
   }
