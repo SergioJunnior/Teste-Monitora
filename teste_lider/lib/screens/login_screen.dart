@@ -37,9 +37,7 @@ class _LoginScreenState extends State < LoginScreen > {
                 stream: _loginBloc.outEmail,
                 initialData: FieldState(),
                 builder: (context, snapshot) {
-                  return Container(
-                  height: 40,
-                  child: TextFormField(
+                  return TextFormField(
                     keyboardType: TextInputType.emailAddress,
                     autocorrect: false,
                     decoration: InputDecoration(
@@ -49,7 +47,7 @@ class _LoginScreenState extends State < LoginScreen > {
                     ),
                     onChanged: _loginBloc.changeEmail,
                     enabled: snapshot.data.enabled,
-                  ),);
+                  );
                 },
               ),
               Padding(
@@ -74,9 +72,7 @@ class _LoginScreenState extends State < LoginScreen > {
                 stream: _loginBloc.outPassword,
                 initialData: FieldState(),
                 builder: (context, snapshot) {
-                  return Container(
-                    height: 40,
-                   child: TextField(
+                  return TextField(
                     autocorrect: false,
                     obscureText: true,
 
@@ -87,8 +83,8 @@ class _LoginScreenState extends State < LoginScreen > {
                     ),
                     onChanged: _loginBloc.changePassword,
                     enabled: snapshot.data.enabled,
-                  ),
-                );
+                  );
+                
                 }),
               LoginButton(_loginBloc),
               FacebookButton(_loginBloc),

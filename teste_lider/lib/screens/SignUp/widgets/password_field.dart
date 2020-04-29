@@ -80,13 +80,11 @@ class PasswordField extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: < Widget > [
             Padding(padding: EdgeInsets.symmetric(vertical:15)),
-            Container(
-            height: 40,
-            child:TextField(
+            TextField(
               decoration: const InputDecoration(border: OutlineInputBorder(), labelText:"Senha"),
                 obscureText: true,
                 onChanged: state.didChange,
-            ),),
+            ),
             if (state.value.isNotEmpty)
             Container(
               margin: const EdgeInsets.only(top: 6),

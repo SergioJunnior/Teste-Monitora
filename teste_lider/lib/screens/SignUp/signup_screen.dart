@@ -49,88 +49,68 @@ class _SignUpScreenState extends State < SignUpScreen > {
               return ListView(
                 padding: const EdgeInsets.all(16),
                   children: < Widget > [
-                      Container(
-                        height: 40,
-                        child:TextFormField(
-                          decoration: const InputDecoration(
-                            labelText: "Apelido",
-                            border: OutlineInputBorder(),
-                            
-                          ),
-                          validator: (text) {
+                        buildTextFormField(
+                          "Apelido",
+                          _signUpBloc.setApelido,
+                          (text) {
                             if (text.length < 6)
                               return 'Apelido muito Curto';
                             return null;
                           },
-                          onSaved: _signUpBloc.setApelido,
-                      ),
-                      ),
-                      Padding(padding: EdgeInsets.symmetric(vertical:15)),
-                        Container(
-                          height:40,
-                          child: TextFormField(
-                            decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: "Nome"
-                              ),
-                              onSaved: _signUpBloc.setNome,
+                          ),  
+                        Padding(padding: EdgeInsets.symmetric(vertical:15)),
+                        buildTextFormField(
+                            "Nome",
+                            _signUpBloc.setNome,
+                            (text) {
+                            if (text != RegExp(r'[A-Z][a-z]'))
+                              return 'Apelido muito Curto';
+                            return null;
+                          },
                           ),
+                        Padding(padding: EdgeInsets.symmetric(vertical:15)),
+                          buildTextFormField(
+                            "Sobrenome",
+                            _signUpBloc.setSobrenome,    
+                            (text) {
+                            if (text.length < 6)
+                              return 'Apelido muito Curto';
+                            return null;
+                          },
                           ),
                           Padding(padding: EdgeInsets.symmetric(vertical:15)),
+                          buildTextFormField(
+                            'E-mail',
+                            _signUpBloc.setEmail,
+                            (text) {
+                              if (text.length < 6 || !text.contains(RegExp(r"^(([^<>()[\]\\.,;:\s@\']+(\.[^<>()[\]\\.,;:\s@\']+)*)|(\'.+\'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$")))
+                                return 'Email Inválido';
+                              return null;                                      },
+                          ),
+                          PasswordField(
+                          onSaved: _signUpBloc.setPassword,
+                          ),
                           Container(
-                                height: 40,
-                              child:TextFormField(
-                                decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: "Sobrenome",
-                                  ),
-                                  onSaved: _signUpBloc.setSobrenome,
+                            margin: const EdgeInsets.symmetric(vertical: 24),
+                            height: 50,
+                            child: RaisedButton(
+                            color: Colors.green,
+                            disabledColor: Colors.green.withAlpha(150),
+                            child: Text(
+                            'Cadastre-se',
+                            style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            )
+                            ),
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25)
                               ),
-                              ),
-                              
-                                  Padding(padding: EdgeInsets.symmetric(vertical:15)),
-                                  Container(
-                                    height: 40,
-                                    child:TextFormField(
-                                    decoration: const InputDecoration(
-                                        border: OutlineInputBorder(),
-                                        labelText: "Email"
-                                      ),
-                                      validator: (text) {
-                                        if (text.length < 6 || !text.contains(RegExp(r"^(([^<>()[\]\\.,;:\s@\']+(\.[^<>()[\]\\.,;:\s@\']+)*)|(\'.+\'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$")))
-                                          return 'Email Inválido';
-                                        return null;
-
-                                      },
-                                      onSaved: _signUpBloc.setEmail,
-                                  ),),
-                                  
-                                      PasswordField(
-                                        onSaved: _signUpBloc.setPassword,
-                                      ),
-                                      Container(
-                                        margin: const EdgeInsets.symmetric(vertical: 24),
-                                          height: 50,
-                                          child: RaisedButton(
-                                            color: Colors.green,
-                                            disabledColor: Colors.green.withAlpha(150),
-                                            child: Text(
-                                              'Cadastre-se',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w600,
-                                              )
-                                            ),
-                                            elevation: 0,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(25)
-                                            ),
-                                            onPressed: _signUp,
-
-
-                                          ),
-                                      )
+                            onPressed: _signUp,
+                            ),
+                          )
                   ]
               );
             }
@@ -138,3 +118,14 @@ class _SignUpScreenState extends State < SignUpScreen > {
           ));
         }
       }
+
+Widget buildTextFormField(String label, Function f,Function v) {
+  return TextFormField(
+    decoration: InputDecoration(
+      labelText: label,
+      border: OutlineInputBorder(),
+    ),
+    onChanged: f,
+    validator: v,
+  );
+}

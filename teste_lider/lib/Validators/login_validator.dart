@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:teste_lider/bloc/login/field_statebloc.dart';
-import 'package:teste_lider/screens/Widgets/login_button.dart';
+
 
 class LoginValidator {
   final StreamTransformer < String, FieldState > emailValidator = StreamTransformer < String, FieldState > .fromHandlers(
