@@ -43,9 +43,9 @@ class _SignUpScreenState extends State < SignUpScreen > {
         body: Form(
           key: _formkey,
           child: StreamBuilder < SignUpBlocState > (
+            initialData:null,
             stream: _signUpBloc.outState,
-            builder: (context, snapshote) {
-              
+            builder: (context, snapshot) {
               return ListView(
                 padding: const EdgeInsets.all(16),
                   children: < Widget > [
@@ -57,6 +57,7 @@ class _SignUpScreenState extends State < SignUpScreen > {
                               return 'Apelido muito Curto';
                             return null;
                           },
+                          
                           ),  
                         Padding(padding: EdgeInsets.symmetric(vertical:15)),
                         buildTextFormField(
@@ -96,7 +97,10 @@ class _SignUpScreenState extends State < SignUpScreen > {
                             child: RaisedButton(
                             color: Colors.green,
                             disabledColor: Colors.green.withAlpha(150),
-                            child: Text(
+                            child: snapshot.data.state == SignUpState.LOADING ?
+                            CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                            ): Text(
                             'Cadastre-se',
                             style: TextStyle(
                             color: Colors.white,
@@ -108,8 +112,34 @@ class _SignUpScreenState extends State < SignUpScreen > {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(25)
                               ),
-                            onPressed: _signUp,
+                            onPressed: snapshot.data.state == SignUpState.LOADING ? _signUp : null,
                             ),
+                          ),
+                          Divider(color: Colors.grey),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical:12),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                const Text(
+                                  'Já tem uma conta?',
+                                  style: TextStyle(fontSize: 16)                                  
+                                ),
+                                GestureDetector(
+                                onTap: (){
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text(
+                                  'Entrar',
+                                  style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                    color: Colors.blue,
+                                    fontSize: 16,
+                                  )
+                                )
+                                ),
+                                 
+                            ],),
                           )
                   ]
               );
@@ -120,12 +150,14 @@ class _SignUpScreenState extends State < SignUpScreen > {
       }
 
 Widget buildTextFormField(String label, Function f,Function v) {
-  return TextFormField(
-    decoration: InputDecoration(
-      labelText: label,
-      border: OutlineInputBorder(),
-    ),
-    onChanged: f,
-    validator: v,
+
+ 
+      return TextFormField(
+       decoration: InputDecoration(
+         labelText: label,
+         border: OutlineInputBorder(),
+       ),
+       onSaved: f,
+       validator: v,
   );
 }
