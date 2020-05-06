@@ -1,51 +1,45 @@
 import 'package:rxdart/rxdart.dart';
 import 'package:teste_lider/models/model_user.dart';
 
-enum SignUpState{IDLE , LOADING, ERROR}
+enum SignUpState { IDLE, LOADING, ERROR }
 
-class SignUpBlocState{
-  
-  SignUpBlocState(this.state,{this.errorMessage});
+class SignUpBlocState {
+  SignUpBlocState(this.state, {this.errorMessage});
 
   SignUpState state;
   String errorMessage;
 }
 
-class SignUpBloc{
-
-  final BehaviorSubject<SignUpBlocState> _stateController = BehaviorSubject<SignUpBlocState>.seeded(SignUpBlocState(SignUpState.IDLE));
-
+class SignUpBloc {
+  final BehaviorSubject<SignUpBlocState> _stateController =
+      BehaviorSubject<SignUpBlocState>.seeded(
+          SignUpBlocState(SignUpState.IDLE));
 
   Stream<SignUpBlocState> get outState => _stateController.stream;
 
-  User user= User();
+  User user = User();
 
-  void signUp()async {
-    _stateController.add(SignUpBlocState(SignUpState.LOADING));
-    
-    await Future.delayed(Duration(seconds: 2));
-
-    _stateController.add(SignUpBlocState(SignUpState.IDLE));
+  void setApelido(String apelido) {
+    user.apelido = apelido;
   }
 
-  void  setApelido(String apelido) {
-     user.apelido = apelido;
-  }
-  void  setNome(String nome) {
-     user.nome = nome;
-  }
-  void  setSobrenome(String sobrenome) {
-     user.sobrenome = sobrenome;
-  }
-  void  setEmail(String email) {
-     user.email = email;
-  }
-  void  setPassword(String password) {
-     user.password = password;
+  void setNome(String nome) {
+    user.nome = nome;
   }
 
-  void dispose(){
+  void setSobrenome(String sobrenome) {
+    user.sobrenome = sobrenome;
+  }
+
+  void setEmail(String email) {
+    user.email = email;
+  }
+
+  void setPassword(String password) {
+    user.password = password;
+  }
+
+  void dispose() {
     _stateController.close();
   }
-
 }

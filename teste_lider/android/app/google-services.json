@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1088837309233",
+    "firebase_url": "https://loginlider-835b1.firebaseio.com",
+    "project_id": "loginlider-835b1",
+    "storage_bucket": "loginlider-835b1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1088837309233:android:72e62bc7281697ae109610",
+        "android_client_info": {
+          "package_name": "br.com.testelider.teste_lider"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1088837309233-pqsh6r5nh4pj8enth8n198amli0ant07.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuNXfpnJJHQm7wXJhTwlM89xk5QakjEkc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1088837309233-pqsh6r5nh4pj8enth8n198amli0ant07.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
