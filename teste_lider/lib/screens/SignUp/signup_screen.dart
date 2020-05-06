@@ -21,7 +21,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   SignUpBloc _signUpBloc;
 
+  @override
+  void initState() {
+    super.initState();
+    _signUpBloc = SignUpBloc();
+  }
 
+  @override
+  void dispose() {
+    _signUpBloc?.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +40,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
           elevation: 0,
           title: const Text('Cadastrar'),
         ),
-        body: ScopedModelDescendant<User>(builder: (context, child, model) {
+        body: ScopedModelDescendant<User>(builder: (
+          context,
+          child,
+          model,
+        ) {
           return Form(
             key: _formkey,
             child: StreamBuilder<SignUpBlocState>(
