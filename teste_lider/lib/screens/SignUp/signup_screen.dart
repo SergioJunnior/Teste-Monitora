@@ -12,6 +12,7 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  final _scaffoldkey = GlobalKey<ScaffoldState>();
 
   final _apelidoController = TextEditingController();
   final _nomeController = TextEditingController();
@@ -36,6 +37,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: _scaffoldkey,
         appBar: AppBar(
           elevation: 0,
           title: const Text('Cadastrar'),
@@ -58,7 +60,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           "Apelido",
                           _signUpBloc.setApelido,
                           (text) {
-                            if (text.length < 6) return 'Apelido muito Curto';
+                            if (text.length < 2) return 'Apelido muito Curto';
                             return null;
                           },
                         ),
@@ -68,7 +70,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           "Nome",
                           _signUpBloc.setNome,
                           (text) {
-                            if (text.length < 6) return 'Nome Inválido';
+                            if (text.length < 2) return 'Nome Inválido';
                             return null;
                           },
                         ),
@@ -78,7 +80,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           "Sobrenome",
                           _signUpBloc.setSobrenome,
                           (text) {
-                            if (text.length < 6) return 'Sobrenome Inválido';
+                            if (text.length < 4) return 'Sobrenome Inválido';
                             return null;
                           },
                         ),
@@ -163,9 +165,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
         }));
   }
 
-  void _onSuccess() {}
+  void _onSuccess() {
+    _scaffoldkey.currentState.showSnackBar(SnackBar(
+      content: Text("Usuário Cadastrado com sucesso"),
+      backgroundColor: Colors.greenAccent,
+      duration: Duration(seconds: 3),
+    ));
+    Future.delayed(Duration(seconds: 3)).then((_) {
+      Navigator.of(context).pop();
+    });
+  }
 
-  void _onFail() {}
+  void _onFail() {
+    _scaffoldkey.currentState.showSnackBar(SnackBar(
+      content: Text("Falha ao criar usuário!"),
+      backgroundColor: Colors.redAccent,
+      duration: Duration(seconds: 3),
+    ));
+  }
 }
 
 /*Widget buildTextFormField(String label, Function f,Function v) {

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:scoped_model/scoped_model.dart';
 import 'package:teste_lider/bloc/login/field_statebloc.dart';
 import 'package:teste_lider/bloc/login/login_bloc.dart';
+import 'package:teste_lider/models/model_user.dart';
 import 'package:teste_lider/screens/SignUp/signup_screen.dart';
 import 'package:teste_lider/screens/Widgets/facebook_button.dart';
 import 'package:teste_lider/screens/Widgets/login_button.dart';
@@ -12,7 +14,6 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   LoginBloc _loginBloc = LoginBloc();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,7 +83,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       enabled: snapshot.data.enabled,
                     );
                   }),
-              LoginButton(_loginBloc),
+              ScopedModelDescendant<User>(builder: (context, child, model) {
+                return LoginButton(_loginBloc);
+              }),
               FacebookButton(_loginBloc),
               Divider(
                 color: Colors.grey,
