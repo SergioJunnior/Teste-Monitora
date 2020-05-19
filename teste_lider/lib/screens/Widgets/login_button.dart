@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:teste_lider/bloc/login/button_state.dart';
 import 'package:teste_lider/bloc/login/login_bloc.dart';
-import 'package:teste_lider/screens/Conta/conta_screen.dart';
 
 class LoginButton extends StatelessWidget {
   LoginButton(
@@ -25,13 +24,7 @@ class LoginButton extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25)),
               onPressed: snapshot.data.enabled
-                  ? () async {
-                      final bool success = await loginBloc.loginWithEmail();
-                      if (success) {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => AccountScreen()));
-                      }
-                    }
+                  ? () => loginBloc.loginWithEmail()
                   : null,
               child: snapshot.data.loading
                   ? CircularProgressIndicator(

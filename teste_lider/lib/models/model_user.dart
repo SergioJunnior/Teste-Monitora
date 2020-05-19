@@ -27,6 +27,7 @@ class User extends Model {
       onSuccess();
       isloading = false;
       notifyListeners();
+      return firebaseUser.uid;
     }).catchError((e) {
       onFail();
       isloading = false;
@@ -42,49 +43,8 @@ class User extends Model {
         .setData(userData);
   }
 
-  bool isLoggedIn() {
-    return firebaseUser != null;
-  }
-
-  void signIn({
-    @required String email,
-    @required String password,
-  }) async {
-    isloading = true;
-    notifyListeners();
-    _auth
-        .signInWithEmailAndPassword(email: email, password: password)
-        .then((authResult) async {
-      firebaseUser = authResult.user;
-      await loadCurrentUser();
-      isloading = false;
-      notifyListeners();
-      isloading = false;
-      notifyListeners();
-    });
-  }
-
-  Future<Null> loadCurrentUser() async {
-    if (firebaseUser == null)
-      firebaseUser = await FirebaseAuth.instance.currentUser();
-    if (firebaseUser != null) {
-      if (userData == null) {
-        DocumentSnapshot docUser = await Firestore.instance
-            .collection('users')
-            .document(firebaseUser.uid)
-            .get();
-        userData = docUser.data;
-      }
-    }
-    notifyListeners();
-  }
-
-  void showData() async {
-    await loadCurrentUser();
-  }
-
   void signOut() async {
-    await _auth.signOut();
+    await FirebaseAuth.instance.signOut();
     userData = Map();
     firebaseUser = null;
 

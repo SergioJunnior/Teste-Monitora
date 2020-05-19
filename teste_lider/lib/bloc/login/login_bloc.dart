@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:scoped_model/scoped_model.dart';
 import 'package:teste_lider/Validators/login_validator.dart';
 import 'package:teste_lider/bloc/login/button_state.dart';
 import 'package:teste_lider/bloc/login/field_statebloc.dart';
@@ -48,16 +49,33 @@ class LoginBloc with LoginValidator {
                 c.state != LoginState.LOADING);
       });
 
-  Future<bool> loginWithEmail() async {
+  void signIn({
+    String email,
+    String password,
+    VoidCallback onSuccess,
+    VoidCallback onFail,
+  }) async {
+    _stateController.add(LoginBlocState(LoginState.LOADING));
+    await FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: email, password: password)
+        .then((authResult) async {
+      firebaseUser = authResult.user;
+      onSuccess();
+      return firebaseUser.uid;
+    }).catchError((e) {
+      onFail();
+    });
+  }
+
+  loginWithEmail() {
     final email = _emailController.value;
     final password = _passwordController.value;
-
-    ScopedModelDescendant<User>(builder: (context, child, model) {
-      model.signIn(
-        email: email,
-        password: password,
-      );
-    });
+    signIn(
+      email: email,
+      password: password,
+      onSuccess: onSuccess(),
+      onFail: onFail(),
+    );
   }
 
   Future<bool> loginWithFacebook() async {
@@ -73,4 +91,11 @@ class LoginBloc with LoginValidator {
     _emailController.close();
     _passwordController.close();
   }
+
+  onSuccess() {
+    _stateController.add(LoginBlocState(LoginState.DONE));
+    Future.delayed(Duration(seconds: 3)).then((_) {});
+  }
+
+  onFail() {}
 }

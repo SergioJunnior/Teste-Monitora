@@ -26,72 +26,66 @@ class AccountScreen extends StatelessWidget {
             )
           ],
         ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Container(
-              height: 100,
-              decoration: BoxDecoration(color: Colors.green.withAlpha(150)),
-              alignment: Alignment.center,
-              child: Text(
-                'Dados',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Container(
+                height: 100,
+                decoration: BoxDecoration(color: Colors.green.withAlpha(150)),
+                alignment: Alignment.center,
+                child: Text(
+                  'Dados',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                  ),
                 ),
               ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                TextField(
-                  decoration: InputDecoration(
-                      labelText:
-                          '${!model.isLoggedIn() ? '' : model.userData['apelido']}'),
-                  enabled: false,
-                ),
-                Padding(padding: EdgeInsets.only(top: 7)),
-                Text(
-                  'Apelido',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
-                ),
-                TextField(
-                  decoration: InputDecoration(
-                      labelText:
-                          '${!model.isLoggedIn() ? '' : model.userData['nome']}'),
-                  enabled: false,
-                ),
-                Padding(padding: EdgeInsets.only(top: 7)),
-                Text(
-                  'Nome',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
-                ),
-                TextField(
-                  decoration: InputDecoration(
-                      labelText:
-                          '${!model.isLoggedIn() ? '' : model.userData['sobrenome']}'),
-                  enabled: false,
-                ),
-                Padding(padding: EdgeInsets.only(top: 7)),
-                Text(
-                  'Sobrenome',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
-                ),
-                Padding(padding: EdgeInsets.only(top: 7)),
-                TextField(
-                  decoration: InputDecoration(
-                      labelText:
-                          '${!model.isLoggedIn() ? '' : model.userData['email']}'),
-                  enabled: false,
-                ),
-                Padding(padding: EdgeInsets.only(top: 7)),
-                Text(
-                  'E-mail',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
-                ),
-              ],
-            ),
-          ],
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  TextField(
+                    decoration: InputDecoration(labelText: ''),
+                    enabled: false,
+                  ),
+                  Padding(padding: EdgeInsets.only(top: 7)),
+                  Text(
+                    'Apelido',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
+                  ),
+                  TextField(
+                    decoration: InputDecoration(labelText: ''),
+                    enabled: false,
+                  ),
+                  Padding(padding: EdgeInsets.only(top: 7)),
+                  Text(
+                    'Nome',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
+                  ),
+                  TextField(
+                    decoration: InputDecoration(labelText: ''),
+                    enabled: false,
+                  ),
+                  Padding(padding: EdgeInsets.only(top: 7)),
+                  Text(
+                    'Sobrenome',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
+                  ),
+                  Padding(padding: EdgeInsets.only(top: 7)),
+                  TextField(
+                    decoration: InputDecoration(labelText: ''),
+                    enabled: false,
+                  ),
+                  Padding(padding: EdgeInsets.only(top: 7)),
+                  Text(
+                    'E-mail',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       );
     });

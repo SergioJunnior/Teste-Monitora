@@ -66,7 +66,13 @@ class PasswordField extends StatelessWidget {
       initialValue: "",
       onSaved: onSaved,
       validator: (text) {
-        if (text.isEmpty || _calcScore(text) < 2) return "Senha inválida";
+        if (text.isEmpty || _calcScore(text) < 2) {
+          SnackBar(
+            content: Text('Senha muito fraca'),
+            backgroundColor: Colors.redAccent,
+            duration: Duration(seconds: 3),
+          );
+        }
         return null;
       },
       builder: (state) {
