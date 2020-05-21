@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:teste_lider/models/model_user.dart';
-import 'package:teste_lider/screens/Conta/conta_screen.dart';
 import 'package:teste_lider/screens/login_screen.dart';
 
 void main() => runApp(MyApp());

@@ -51,8 +51,35 @@ class User extends Model {
     notifyListeners();
   }
 
-  User({this.apelido, this.nome, this.sobrenome, this.email, this.password});
+  bool isLoggedIn() {
+    return firebaseUser != null;
+  }
 
+  //var snapshot= Firestore.instance.collection('users').document().get();
+  //User user = User.fromJson()
+
+  //static fromJson(Map<String,dynamic>parsedJson){
+  // return User(
+  //  apelido: parsedJson['apelido'],
+  // nome: parsedJson['nome'],
+  // sobrenome : parsedJson['sobrenome'],
+  // email: parsedJson['email']
+  // );
+  // }
+//    Firestore db = Firestore.instance;
+  //  DocumentSnapshot snapshot =
+  //    await db.collection('users').document(firebaseUser.uid).get();
+  //var dados = snapshot.data;
+
+  User(
+      {this.uid,
+      this.apelido,
+      this.nome,
+      this.sobrenome,
+      this.email,
+      this.password});
+
+  String uid;
   String apelido;
   String nome;
   String sobrenome;

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:teste_lider/bloc/login/login_bloc.dart';
 import 'package:teste_lider/models/model_user.dart';
 import 'package:teste_lider/screens/login_screen.dart';
 
 class AccountScreen extends StatelessWidget {
+  AccountScreen(this.loginBloc);
+  final LoginBloc loginBloc;
+
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<User>(builder: (context, child, model) {
@@ -45,42 +49,62 @@ class AccountScreen extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  TextField(
-                    decoration: InputDecoration(labelText: ''),
-                    enabled: false,
-                  ),
                   Padding(padding: EdgeInsets.only(top: 7)),
                   Text(
                     'Apelido',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                   ),
                   TextField(
-                    decoration: InputDecoration(labelText: ''),
+                      decoration: InputDecoration(
+                    prefixIcon: Icon(
+                      Icons.alternate_email,
+                      size: 20.0,
+                      color: Colors.green,
+                    ),
+                    labelText: '${loginBloc.userData['apelido']}',
                     enabled: false,
-                  ),
-                  Padding(padding: EdgeInsets.only(top: 7)),
+                  )),
+                  Padding(padding: EdgeInsets.only(top: 25)),
                   Text(
                     'Nome',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                   ),
                   TextField(
-                    decoration: InputDecoration(labelText: ''),
+                    decoration: InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.person_outline,
+                          color: Colors.green,
+                        ),
+                        labelText: '${loginBloc.userData['nome']}'),
                     enabled: false,
                   ),
-                  Padding(padding: EdgeInsets.only(top: 7)),
+                  Padding(padding: EdgeInsets.only(top: 25)),
                   Text(
                     'Sobrenome',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                   ),
-                  Padding(padding: EdgeInsets.only(top: 7)),
                   TextField(
-                    decoration: InputDecoration(labelText: ''),
+                    decoration: InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.person_outline,
+                          color: Colors.green,
+                        ),
+                        labelText: '${loginBloc.userData['sobrenome']}'),
                     enabled: false,
                   ),
-                  Padding(padding: EdgeInsets.only(top: 7)),
+                  Padding(padding: EdgeInsets.only(top: 25)),
                   Text(
                     'E-mail',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                  ),
+                  TextField(
+                    decoration: InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.mail_outline,
+                          color: Colors.green,
+                        ),
+                        labelText: '${loginBloc.userData['email']}'),
+                    enabled: false,
                   ),
                 ],
               ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:scoped_model/scoped_model.dart';
 import 'package:teste_lider/bloc/login/field_statebloc.dart';
 import 'package:teste_lider/bloc/login/login_bloc.dart';
-import 'package:teste_lider/models/model_user.dart';
+import 'package:teste_lider/bloc/login/login_bloc_state.dart';
+import 'package:teste_lider/screens/Conta/conta_screen.dart';
 import 'package:teste_lider/screens/SignUp/signup_screen.dart';
 import 'package:teste_lider/screens/Widgets/facebook_button.dart';
 import 'package:teste_lider/screens/Widgets/login_button.dart';
@@ -14,6 +14,33 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   LoginBloc _loginBloc = LoginBloc();
+
+  @override
+  void initState() {
+    _loginBloc = LoginBloc();
+    _loginBloc.listen((state) {
+      switch (state) {
+        case LoginState.IDLE:
+          break;
+        case LoginState.DONE:
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => AccountScreen(_loginBloc)));
+          break;
+        case LoginState.LOADING_FACE:
+          break;
+        case LoginState.ERROR:
+          break;
+        case LoginState.LOADING:
+          break;
+        case LoginState.INVALID_CREDENTIAL:
+          break;
+        case LoginState.EMAIL_NOT_CONFIRMED:
+          break;
+      }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,6 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     keyboardType: TextInputType.emailAddress,
                     autocorrect: false,
                     decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.mail_outline),
                       labelText: "Email",
                       border: const OutlineInputBorder(),
                       errorText: snapshot.data.error,
@@ -75,6 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       autocorrect: false,
                       obscureText: true,
                       decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.lock_outline),
                         labelText: "Senha",
                         border: const OutlineInputBorder(),
                         errorText: snapshot.data.error,
@@ -83,9 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       enabled: snapshot.data.enabled,
                     );
                   }),
-              ScopedModelDescendant<User>(builder: (context, child, model) {
-                return LoginButton(_loginBloc);
-              }),
+              LoginButton(_loginBloc),
               FacebookButton(_loginBloc),
               Divider(
                 color: Colors.grey,
