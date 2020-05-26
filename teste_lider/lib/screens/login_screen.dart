@@ -29,6 +29,11 @@ class _LoginScreenState extends State<LoginScreen> {
         case LoginState.LOADING_FACE:
           break;
         case LoginState.ERROR:
+          SnackBar(
+            content: Text(_loginBloc.getError),
+            backgroundColor: Colors.greenAccent,
+            duration: Duration(seconds: 3),
+          );
           break;
         case LoginState.LOADING:
           break;

@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:teste_lider/Validators/login_validator.dart';
 import 'package:teste_lider/bloc/login/button_state.dart';
@@ -16,11 +15,14 @@ class LoginBloc extends Bloc<LoginState, LoginState> with LoginValidator {
   FirebaseUser firebaseUser;
   User user;
   Map<String, dynamic> userData = Map();
+  static String error = error;
+
   final BehaviorSubject<LoginBlocState> _stateController =
       BehaviorSubject<LoginBlocState>.seeded(LoginBlocState(LoginState.IDLE));
   final BehaviorSubject<String> _emailController = BehaviorSubject<String>();
   final BehaviorSubject<String> _passwordController = BehaviorSubject<String>();
 
+  String get getError => error;
   Function(String) get changeEmail => _emailController.sink.add;
   Function(String) get changePassword => _passwordController.sink.add;
 
@@ -53,7 +55,6 @@ class LoginBloc extends Bloc<LoginState, LoginState> with LoginValidator {
                 b.error == null &&
                 c.state != LoginState.LOADING);
       });
-
   @override
   LoginState get initialState => LoginState.IDLE;
 
@@ -75,29 +76,9 @@ class LoginBloc extends Bloc<LoginState, LoginState> with LoginValidator {
       onSuccess();
       loadUserData();
       return firebaseUser.uid;
-    }).catchError((e) {
-      String authError = '';
-      switch (e.code) {
-        case ErrorCodes.ERROR_C0DE_NETWORK_ERROR:
-          authError = ErrorMessages.ERROR_C0DE_NETWORK_ERROR;
-          break;
-
-        case ErrorCodes.ERROR_USER_NOT_FOUND:
-          authError = ErrorMessages.ERROR_USER_NOT_FOUND;
-          break;
-
-        case ErrorCodes.ERROR_INVALID_EMAIL:
-          authError = ErrorMessages.ERROR_INVALID_EMAIL;
-          break;
-
-        case ErrorCodes.ERROR_CODE_WRONG_PASSWORD:
-          authError = ErrorMessages.ERROR_CODE_WRONG_PASSWORD;
-          break;
-      }
-      throw Exception(authError);
+    }).catchError((error) {
+      onFail();
     });
-
-    add(LoginState.DONE);
   }
 
   Future<Null> loadUserData() async {
@@ -148,9 +129,28 @@ class LoginBloc extends Bloc<LoginState, LoginState> with LoginValidator {
   }
 
   onSuccess() {
-    _stateController.add(LoginBlocState(LoginState.DONE));
     Future.delayed(Duration(seconds: 3)).then((_) {});
+    _stateController.add(LoginBlocState(LoginState.DONE));
   }
 
-  onFail() {}
+  onFail() {
+    switch (error) {
+      case ErrorCodes.ERROR_C0DE_NETWORK_ERROR:
+        error = ErrorMessages.ERROR_C0DE_NETWORK_ERROR;
+        break;
+
+      case ErrorCodes.ERROR_USER_NOT_FOUND:
+        error = ErrorMessages.ERROR_USER_NOT_FOUND;
+        break;
+
+      case ErrorCodes.ERROR_INVALID_EMAIL:
+        error = ErrorMessages.ERROR_INVALID_EMAIL;
+        break;
+
+      case ErrorCodes.ERROR_WRONG_PASSWORD:
+        error = ErrorMessages.ERROR_WRONG_PASSWORD;
+        break;
+    }
+    return error;
+  }
 }

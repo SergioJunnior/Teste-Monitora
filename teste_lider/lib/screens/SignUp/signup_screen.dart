@@ -56,6 +56,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       padding: const EdgeInsets.all(16),
                       children: <Widget>[
                         formField(
+                          Icon(
+                            Icons.alternate_email,
+                            size: 20,
+                          ),
                           _apelidoController,
                           "Apelido",
                           _signUpBloc.setApelido,
@@ -66,6 +70,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         Padding(padding: EdgeInsets.symmetric(vertical: 15)),
                         formField(
+                          Icon(Icons.mail_outline),
                           _nomeController,
                           "Nome",
                           _signUpBloc.setNome,
@@ -76,6 +81,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         Padding(padding: EdgeInsets.symmetric(vertical: 15)),
                         formField(
+                          Icon(Icons.mail_outline),
                           _sobrenomeController,
                           "Sobrenome",
                           _signUpBloc.setSobrenome,
@@ -86,6 +92,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         Padding(padding: EdgeInsets.symmetric(vertical: 15)),
                         formField(
+                          Icon(Icons.mail_outline),
                           _emailController,
                           'E-mail',
                           _signUpBloc.setEmail,

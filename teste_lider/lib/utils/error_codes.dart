@@ -2,7 +2,7 @@ class ErrorCodes {
   static const String ERROR_C0DE_NETWORK_ERROR = "FirebaseException";
   static const String ERROR_USER_NOT_FOUND = "ERROR_USER_NOT_FOUND";
   static const String ERROR_INVALID_EMAIL = "ERROR_INVALID_EMAIL";
-  static const String ERROR_CODE_WRONG_PASSWORD = "ERROR_CODE_WRONG_PASSWORD";
+  static const String ERROR_WRONG_PASSWORD = "ERROR_CODE_WRONG_PASSWORD";
   static const String ERROR_CODE_EMAIL_ALREADY_IN_USE =
       "ERROR_CODE_EMAIL_ALREADY_IN_USE";
   static const String ERROR_OPERATION_NOT_ALLOWED =
@@ -15,7 +15,7 @@ class ErrorMessages {
       "Network Error! Check internet connection.";
   static const String ERROR_USER_NOT_FOUND = "User Not Found!";
   static const String ERROR_INVALID_EMAIL = "Invalid Email!";
-  static const String ERROR_CODE_WRONG_PASSWORD = "Wrong Password!";
+  static const String ERROR_WRONG_PASSWORD = "Wrong Password!";
   static const String ERROR_CODE_EMAIL_ALREADY_IN_USE =
       "This email is already in use!";
   static const String ERROR_OPERATION_NOT_ALLOWED = "Operation not allowed";

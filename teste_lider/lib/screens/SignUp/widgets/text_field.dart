@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class formField extends StatelessWidget {
-  formField(this.controler, this.label, this.saved, this.validator);
+  formField(this.icon, this.controler, this.label, this.saved, this.validator);
 
+  final Icon icon;
   final String label;
   final Function saved;
   final Function validator;
@@ -12,6 +13,7 @@ class formField extends StatelessWidget {
     return TextFormField(
       controller: controler,
       decoration: InputDecoration(
+        prefixIcon: icon,
         labelText: label,
         border: OutlineInputBorder(),
       ),

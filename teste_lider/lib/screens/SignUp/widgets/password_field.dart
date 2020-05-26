@@ -83,7 +83,9 @@ class PasswordField extends StatelessWidget {
             TextField(
               controller: controller,
               decoration: const InputDecoration(
-                  border: OutlineInputBorder(), labelText: "Senha"),
+                  prefixIcon: Icon(Icons.lock_outline),
+                  border: OutlineInputBorder(),
+                  labelText: "Senha"),
               obscureText: true,
               onChanged: state.didChange,
             ),
