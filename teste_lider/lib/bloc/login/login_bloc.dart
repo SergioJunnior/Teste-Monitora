@@ -15,7 +15,7 @@ class LoginBloc extends Bloc<LoginState, LoginState> with LoginValidator {
   FirebaseUser firebaseUser;
   User user;
   Map<String, dynamic> userData = Map();
-  static String error = error;
+  String error;
 
   final BehaviorSubject<LoginBlocState> _stateController =
       BehaviorSubject<LoginBlocState>.seeded(LoginBlocState(LoginState.IDLE));
@@ -67,7 +67,7 @@ class LoginBloc extends Bloc<LoginState, LoginState> with LoginValidator {
     String email,
     String password,
     VoidCallback onSuccess,
-    VoidCallback onFail,
+    Function onFail,
   }) async {
     await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: password)
@@ -77,7 +77,7 @@ class LoginBloc extends Bloc<LoginState, LoginState> with LoginValidator {
       loadUserData();
       return firebaseUser.uid;
     }).catchError((error) {
-      onFail();
+      onFail(error.code);
     });
   }
 
@@ -133,7 +133,7 @@ class LoginBloc extends Bloc<LoginState, LoginState> with LoginValidator {
     _stateController.add(LoginBlocState(LoginState.DONE));
   }
 
-  onFail() {
+  onFail(String error) {
     switch (error) {
       case ErrorCodes.ERROR_C0DE_NETWORK_ERROR:
         error = ErrorMessages.ERROR_C0DE_NETWORK_ERROR;
@@ -151,6 +151,8 @@ class LoginBloc extends Bloc<LoginState, LoginState> with LoginValidator {
         error = ErrorMessages.ERROR_WRONG_PASSWORD;
         break;
     }
+    add(LoginState.ERROR);
+
     return error;
   }
 }
