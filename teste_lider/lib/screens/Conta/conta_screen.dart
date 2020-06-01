@@ -17,8 +17,10 @@ class AccountScreenState extends State<AccountScreen> {
 
   String userId;
 
-  void getUserId() async {
-    userId = (await FirebaseAuth.instance.currentUser()).uid;
+  Future getUserId() async {
+    await Future.delayed(Duration(seconds: 3), () async {
+      userId = (await FirebaseAuth.instance.currentUser()).uid;
+    });
   }
 
   @override
@@ -43,103 +45,113 @@ class AccountScreenState extends State<AccountScreen> {
           ],
         ),
         body: SingleChildScrollView(
-          child: new StreamBuilder(
-            initialData: [],
-            stream: Firestore.instance
-                .collection('users')
-                .document(userId)
-                .snapshots(),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (!snapshot.hasData) {
-                return new Text('Loading');
-              }
-              var dados = snapshot.data;
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Container(
-                    height: 100,
-                    decoration:
-                        BoxDecoration(color: Colors.green.withAlpha(150)),
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Dados',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(padding: EdgeInsets.only(top: 7)),
-                      Text(
-                        'Apelido',
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w600),
-                      ),
-                      TextField(
-                          decoration: InputDecoration(
-                        prefixIcon: Icon(
-                          Icons.alternate_email,
-                          size: 20.0,
-                          color: Colors.green,
-                        ),
-                        labelText: '${dados('apelido')}',
-                        enabled: false,
-                      )),
-                      Padding(padding: EdgeInsets.only(top: 25)),
-                      Text(
-                        'Nome',
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w600),
-                      ),
-                      TextField(
-                        decoration: InputDecoration(
-                            prefixIcon: Icon(
-                              Icons.person_outline,
-                              color: Colors.green,
+            child: new FutureBuilder(
+                future: getUserId(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else {
+                    return StreamBuilder(
+                      initialData: [],
+                      stream: Firestore.instance
+                          .collection('users')
+                          .document(userId)
+                          .snapshots(),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        var dados = snapshot.data;
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            Container(
+                              height: 100,
+                              decoration: BoxDecoration(
+                                  color: Colors.green.withAlpha(150)),
+                              alignment: Alignment.center,
+                              child: Text(
+                                'Dados',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                ),
+                              ),
                             ),
-                            labelText: '${dados['nome']}'),
-                        enabled: false,
-                      ),
-                      Padding(padding: EdgeInsets.only(top: 25)),
-                      Text(
-                        'Sobrenome',
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w600),
-                      ),
-                      TextField(
-                        decoration: InputDecoration(
-                            prefixIcon: Icon(
-                              Icons.person_outline,
-                              color: Colors.green,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Padding(padding: EdgeInsets.only(top: 7)),
+                                Text(
+                                  'Apelido',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                TextField(
+                                    decoration: InputDecoration(
+                                  prefixIcon: Icon(
+                                    Icons.alternate_email,
+                                    size: 20.0,
+                                    color: Colors.green,
+                                  ),
+                                  labelText: '${dados('apelido')}',
+                                  enabled: false,
+                                )),
+                                Padding(padding: EdgeInsets.only(top: 25)),
+                                Text(
+                                  'Nome',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                TextField(
+                                  decoration: InputDecoration(
+                                      prefixIcon: Icon(
+                                        Icons.person_outline,
+                                        color: Colors.green,
+                                      ),
+                                      labelText: '${dados['nome']}'),
+                                  enabled: false,
+                                ),
+                                Padding(padding: EdgeInsets.only(top: 25)),
+                                Text(
+                                  'Sobrenome',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                TextField(
+                                  decoration: InputDecoration(
+                                      prefixIcon: Icon(
+                                        Icons.person_outline,
+                                        color: Colors.green,
+                                      ),
+                                      labelText: '${dados['sobrenome']}'),
+                                  enabled: false,
+                                ),
+                                Padding(padding: EdgeInsets.only(top: 25)),
+                                Text(
+                                  'E-mail',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                TextField(
+                                  decoration: InputDecoration(
+                                      prefixIcon: Icon(
+                                        Icons.mail_outline,
+                                        color: Colors.green,
+                                      ),
+                                      labelText: '${dados['email']}'),
+                                  enabled: false,
+                                ),
+                              ],
                             ),
-                            labelText: '${dados['sobrenome']}'),
-                        enabled: false,
-                      ),
-                      Padding(padding: EdgeInsets.only(top: 25)),
-                      Text(
-                        'E-mail',
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w600),
-                      ),
-                      TextField(
-                        decoration: InputDecoration(
-                            prefixIcon: Icon(
-                              Icons.mail_outline,
-                              color: Colors.green,
-                            ),
-                            labelText: '${dados['email']}'),
-                        enabled: false,
-                      ),
-                    ],
-                  ),
-                ],
-              );
-            },
-          ),
-        ));
+                          ],
+                        );
+                      },
+                    );
+                  }
+                })));
   }
 }
