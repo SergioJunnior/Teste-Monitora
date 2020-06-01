@@ -13,7 +13,7 @@ class ErrorCodes {
 class ErrorMessages {
   static const String ERROR_C0DE_NETWORK_ERROR =
       "Network Error! Check internet connection.";
-  static const String ERROR_USER_NOT_FOUND = "User Not Found!";
+  static const String ERROR_USER_NOT_FOUND = "Usuário não en";
   static const String ERROR_INVALID_EMAIL = "Invalid Email!";
   static const String ERROR_WRONG_PASSWORD = "Wrong Password!";
   static const String ERROR_CODE_EMAIL_ALREADY_IN_USE =

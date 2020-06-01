@@ -23,9 +23,6 @@ class LoginButton extends StatelessWidget {
               elevation: 0,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25)),
-              onPressed: snapshot.data.enabled
-                  ? () => loginBloc.loginWithEmail()
-                  : null,
               child: snapshot.data.loading
                   ? CircularProgressIndicator(
                       valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
@@ -38,6 +35,9 @@ class LoginButton extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
+              onPressed: snapshot.data.enabled
+                  ? () => loginBloc.loginWithEmail()
+                  : null,
             );
           }),
     );

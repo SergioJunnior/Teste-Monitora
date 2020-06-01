@@ -43,14 +43,6 @@ class User extends Model {
         .setData(userData);
   }
 
-  void signOut() async {
-    await FirebaseAuth.instance.signOut();
-    userData = Map();
-    firebaseUser = null;
-
-    notifyListeners();
-  }
-
   bool isLoggedIn() {
     return firebaseUser != null;
   }
@@ -71,15 +63,8 @@ class User extends Model {
   //    await db.collection('users').document(firebaseUser.uid).get();
   //var dados = snapshot.data;
 
-  User(
-      {this.uid,
-      this.apelido,
-      this.nome,
-      this.sobrenome,
-      this.email,
-      this.password});
+  User({this.apelido, this.nome, this.sobrenome, this.email, this.password});
 
-  String uid;
   String apelido;
   String nome;
   String sobrenome;

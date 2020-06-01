@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,15 +13,15 @@ import 'package:teste_lider/utils/error_codes.dart';
 class LoginBloc extends Bloc<LoginState, LoginState> with LoginValidator {
   FirebaseUser firebaseUser;
   User user;
-  Map<String, dynamic> userData = Map();
-  String error;
+  // Map<String, dynamic> userData = Map();
+  String erro;
 
   final BehaviorSubject<LoginBlocState> _stateController =
       BehaviorSubject<LoginBlocState>.seeded(LoginBlocState(LoginState.IDLE));
   final BehaviorSubject<String> _emailController = BehaviorSubject<String>();
   final BehaviorSubject<String> _passwordController = BehaviorSubject<String>();
 
-  String get getError => error;
+  String get getError => erro;
   Function(String) get changeEmail => _emailController.sink.add;
   Function(String) get changePassword => _passwordController.sink.add;
 
@@ -34,7 +33,6 @@ class LoginBloc extends Bloc<LoginState, LoginState> with LoginValidator {
       }
     });
   }
-
   Stream<LoginBlocState> get outState => _stateController.stream;
   Stream<FieldState> get outEmail => Rx.combineLatest2(
           _emailController.stream.transform(emailValidator), outState, (a, b) {
@@ -74,20 +72,21 @@ class LoginBloc extends Bloc<LoginState, LoginState> with LoginValidator {
         .then((authResult) async {
       firebaseUser = authResult.user;
       onSuccess();
-      loadUserData();
+      //  loadUserData();
       return firebaseUser.uid;
-    }).catchError((error) {
-      onFail(error.code);
+    }).catchError((erro) {
+      print('Entrou no erro');
+      onFail(erro.code);
     });
   }
 
-  Future<Null> loadUserData() async {
-    DocumentSnapshot docUser = await Firestore.instance
-        .collection('users')
-        .document(firebaseUser.uid)
-        .get();
-    userData = docUser.data;
-  }
+  // void loadUserData() async {
+  // DocumentSnapshot docUser = await Firestore.instance
+  //   .collection('users')
+  // .document(firebaseUser.uid)
+  //     .get();
+  //   userData = docUser.data;
+  // }
 
   void loginWithEmail() async {
     final email = _emailController.value;
@@ -105,6 +104,11 @@ class LoginBloc extends Bloc<LoginState, LoginState> with LoginValidator {
     );
   }
 
+  void signOut() async {
+    await FirebaseAuth.instance.signOut();
+    firebaseUser = null;
+  }
+
   Future<bool> loginWithFacebook() async {
     _stateController.add(LoginBlocState(LoginState.LOADING_FACE));
 
@@ -115,7 +119,7 @@ class LoginBloc extends Bloc<LoginState, LoginState> with LoginValidator {
   }
 
   Future<bool> isSignedIn() async {
-    final currentUser = await FirebaseAuth.instance.currentUser();
+    final currentUser = (await FirebaseAuth.instance.currentUser()).uid;
     return currentUser != null;
   }
 
@@ -130,29 +134,24 @@ class LoginBloc extends Bloc<LoginState, LoginState> with LoginValidator {
 
   onSuccess() {
     Future.delayed(Duration(seconds: 3)).then((_) {});
-    _stateController.add(LoginBlocState(LoginState.DONE));
+    add(LoginState.DONE);
   }
 
-  onFail(String error) {
-    switch (error) {
+  onFail(String errorMessage) {
+    switch (errorMessage) {
       case ErrorCodes.ERROR_C0DE_NETWORK_ERROR:
-        error = ErrorMessages.ERROR_C0DE_NETWORK_ERROR;
+        erro = "Sem Conexão Ativa";
         break;
-
       case ErrorCodes.ERROR_USER_NOT_FOUND:
-        error = ErrorMessages.ERROR_USER_NOT_FOUND;
+        erro = "Usuarío não encontrado";
         break;
-
       case ErrorCodes.ERROR_INVALID_EMAIL:
-        error = ErrorMessages.ERROR_INVALID_EMAIL;
+        erro = "Email invalido";
         break;
-
       case ErrorCodes.ERROR_WRONG_PASSWORD:
-        error = ErrorMessages.ERROR_WRONG_PASSWORD;
+        erro = "Senha está errada!";
         break;
     }
     add(LoginState.ERROR);
-
-    return error;
   }
 }

@@ -14,6 +14,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   LoginBloc _loginBloc = LoginBloc();
+  final _scaffoldkey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -23,17 +24,17 @@ class _LoginScreenState extends State<LoginScreen> {
         case LoginState.IDLE:
           break;
         case LoginState.DONE:
-          Navigator.of(context).push(MaterialPageRoute(
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (context) => AccountScreen(_loginBloc)));
           break;
         case LoginState.LOADING_FACE:
           break;
         case LoginState.ERROR:
-          SnackBar(
+          _scaffoldkey.currentState.showSnackBar(SnackBar(
             content: Text(_loginBloc.getError),
-            backgroundColor: Colors.greenAccent,
+            backgroundColor: Colors.red,
             duration: Duration(seconds: 3),
-          );
+          ));
           break;
         case LoginState.LOADING:
           break;
@@ -49,6 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldkey,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
