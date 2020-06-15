@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:teste_lider/bloc/login/login_bloc.dart';
+import 'package:teste_lider/screens/Conta/Widgets/text_fields.dart';
 import 'package:teste_lider/screens/login_screen.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -12,26 +13,30 @@ class AccountScreen extends StatefulWidget {
 }
 
 class AccountScreenState extends State<AccountScreen> {
+  //instancia criada para usar o blo do login nessa tela
   AccountScreenState(this.loginBloc);
   final LoginBloc loginBloc;
 
+  //Variavel que recebe o Id do usuário
   String userId;
 
+  //Futuro que pega e retorna o valor do UID do banco de dados
   Future getUserId() async {
-    await Future.delayed(Duration(seconds: 3), () async {
-      userId = (await FirebaseAuth.instance.currentUser()).uid;
-    });
+    userId = (await FirebaseAuth.instance.currentUser()).uid;
+    return userId;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        //Barra do topo da tela minha conta com um action button de sair
         appBar: AppBar(
           elevation: 0,
           title: const Text(
             'Minha Conta',
           ),
           backgroundColor: Colors.green,
+          // widget que recebe o botão Sair
           actions: <Widget>[
             FlatButton(
               child: Text('Sair'),
@@ -44,7 +49,9 @@ class AccountScreenState extends State<AccountScreen> {
             )
           ],
         ),
+        // corpo da tela minha contaa com um ScrollView
         body: SingleChildScrollView(
+            // FutureBuilder que espera o UID do banco e carrega a tela
             child: new FutureBuilder(
                 future: getUserId(),
                 builder: (context, snapshot) {
@@ -55,11 +62,13 @@ class AccountScreenState extends State<AccountScreen> {
                   } else {
                     return StreamBuilder(
                       initialData: [],
+                      // carrega os dados do banco em snapshots
                       stream: Firestore.instance
                           .collection('users')
                           .document(userId)
                           .snapshots(),
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        // variavel que contem contem os dados do banco de dados
                         var dados = snapshot.data;
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -87,16 +96,10 @@ class AccountScreenState extends State<AccountScreen> {
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600),
                                 ),
-                                TextField(
-                                    decoration: InputDecoration(
-                                  prefixIcon: Icon(
-                                    Icons.alternate_email,
-                                    size: 20.0,
-                                    color: Colors.green,
-                                  ),
-                                  labelText: '${dados('apelido')}',
-                                  enabled: false,
-                                )),
+                                FieldText(
+                                    Icon(Icons.alternate_email,
+                                        size: 20, color: Colors.green),
+                                    '${dados['apelido']}'),
                                 Padding(padding: EdgeInsets.only(top: 25)),
                                 Text(
                                   'Nome',
@@ -104,15 +107,12 @@ class AccountScreenState extends State<AccountScreen> {
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600),
                                 ),
-                                TextField(
-                                  decoration: InputDecoration(
-                                      prefixIcon: Icon(
-                                        Icons.person_outline,
-                                        color: Colors.green,
-                                      ),
-                                      labelText: '${dados['nome']}'),
-                                  enabled: false,
-                                ),
+                                FieldText(
+                                    Icon(
+                                      Icons.person_outline,
+                                      color: Colors.green,
+                                    ),
+                                    '${dados['nome']}'),
                                 Padding(padding: EdgeInsets.only(top: 25)),
                                 Text(
                                   'Sobrenome',
@@ -120,15 +120,12 @@ class AccountScreenState extends State<AccountScreen> {
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600),
                                 ),
-                                TextField(
-                                  decoration: InputDecoration(
-                                      prefixIcon: Icon(
-                                        Icons.person_outline,
-                                        color: Colors.green,
-                                      ),
-                                      labelText: '${dados['sobrenome']}'),
-                                  enabled: false,
-                                ),
+                                FieldText(
+                                    Icon(
+                                      Icons.person_outline,
+                                      color: Colors.green,
+                                    ),
+                                    '${dados['sobrenome']}'),
                                 Padding(padding: EdgeInsets.only(top: 25)),
                                 Text(
                                   'E-mail',
@@ -136,15 +133,12 @@ class AccountScreenState extends State<AccountScreen> {
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600),
                                 ),
-                                TextField(
-                                  decoration: InputDecoration(
-                                      prefixIcon: Icon(
-                                        Icons.mail_outline,
-                                        color: Colors.green,
-                                      ),
-                                      labelText: '${dados['email']}'),
-                                  enabled: false,
-                                ),
+                                FieldText(
+                                    Icon(
+                                      Icons.mail_outline,
+                                      color: Colors.green,
+                                    ),
+                                    '${dados['email']}'),
                               ],
                             ),
                           ],

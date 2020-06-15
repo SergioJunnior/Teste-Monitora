@@ -16,6 +16,7 @@ class _LoginScreenState extends State<LoginScreen> {
   LoginBloc _loginBloc = LoginBloc();
   final _scaffoldkey = GlobalKey<ScaffoldState>();
 
+  //verificador dos estados do app
   @override
   void initState() {
     _loginBloc = LoginBloc();
@@ -96,9 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         decoration: TextDecoration.underline,
                       ),
                     ),
-                    onTap: () {
-                      //Navigator.of(context).push(MaterialPageRoute(builder:(context)=> RecoveryScreen()));
-                    },
+                    onTap: () {},
                   )
                 ]),
               ),

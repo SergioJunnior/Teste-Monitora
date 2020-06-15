@@ -11,15 +11,18 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  // keys utilizadas
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   final _scaffoldkey = GlobalKey<ScaffoldState>();
 
+  //controllers
   final _apelidoController = TextEditingController();
   final _nomeController = TextEditingController();
   final _sobrenomeController = TextEditingController();
   final _emailController = TextEditingController();
   final _passController = TextEditingController();
 
+  //intância do bloc do signUp
   SignUpBloc _signUpBloc;
 
   @override
@@ -128,6 +131,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               elevation: 0,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(25)),
+                              // onPressed que pega as inf dos controllers e realiza o cadastro do usuário
                               onPressed: () {
                                 if (_formkey.currentState.validate()) {
                                   Map<String, dynamic> userData = {
@@ -172,6 +176,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         }));
   }
 
+  //função caso ocorra erro na criação do usuário
   void _onSuccess() {
     _scaffoldkey.currentState.showSnackBar(SnackBar(
       content: Text("Usuário Cadastrado com sucesso"),
@@ -183,6 +188,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     });
   }
 
+  //função caso ocorra erro na criação do usuário
   void _onFail() {
     _scaffoldkey.currentState.showSnackBar(SnackBar(
       content: Text("Falha ao criar usuário!"),
@@ -191,16 +197,3 @@ class _SignUpScreenState extends State<SignUpScreen> {
     ));
   }
 }
-
-/*Widget buildTextFormField(String label, Function f,Function v) {
-
- 
-      return TextFormField(
-       decoration: InputDecoration(
-         labelText: label,
-         border: OutlineInputBorder(),
-       ),
-       onSaved: f,
-       validator: v,
-  );
-}*/

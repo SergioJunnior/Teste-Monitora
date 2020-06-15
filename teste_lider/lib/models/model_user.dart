@@ -5,18 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class User extends Model {
+  //variaveis utilizada nesse escopo
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseUser firebaseUser;
   Map<String, dynamic> userData = Map();
-
-  bool isloading = false;
-
+  bool isLoading = true;
+  //Função em void que faz o login do usuario com as informações recebidas da tela
   void signUp(
       {@required Map<String, dynamic> userData,
       @required String pass,
       @required VoidCallback onSuccess,
       @required VoidCallback onFail}) {
-    isloading = true;
+    isLoading = true;
     notifyListeners();
     _auth
         .createUserWithEmailAndPassword(
@@ -25,16 +25,17 @@ class User extends Model {
       firebaseUser = authResult.user;
       await _saveUserData(userData);
       onSuccess();
-      isloading = false;
+      isLoading = false;
       notifyListeners();
       return firebaseUser.uid;
     }).catchError((e) {
       onFail();
-      isloading = false;
+      isLoading = false;
       notifyListeners();
     });
   }
 
+  //função em Future que salva os dados no database do Firebase
   Future<Null> _saveUserData(Map<String, dynamic> userData) async {
     this.userData = userData;
     await Firestore.instance
@@ -46,22 +47,6 @@ class User extends Model {
   bool isLoggedIn() {
     return firebaseUser != null;
   }
-
-  //var snapshot= Firestore.instance.collection('users').document().get();
-  //User user = User.fromJson()
-
-  //static fromJson(Map<String,dynamic>parsedJson){
-  // return User(
-  //  apelido: parsedJson['apelido'],
-  // nome: parsedJson['nome'],
-  // sobrenome : parsedJson['sobrenome'],
-  // email: parsedJson['email']
-  // );
-  // }
-//    Firestore db = Firestore.instance;
-  //  DocumentSnapshot snapshot =
-  //    await db.collection('users').document(firebaseUser.uid).get();
-  //var dados = snapshot.data;
 
   User({this.apelido, this.nome, this.sobrenome, this.email, this.password});
 
